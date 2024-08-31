@@ -23,7 +23,7 @@ public class Block : MonoBehaviour
     }
 
     // 衝突判定
-    void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ball")
         {
@@ -39,7 +39,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    private IEnumerator Glow()
+    public IEnumerator Glow()
     {
         blockRenderer.material = hitMaterial; // ヒット時のマテリアルに変更
         yield return new WaitForSeconds(0.1f); // 0.1秒間光る

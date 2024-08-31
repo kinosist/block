@@ -10,18 +10,21 @@ public class GameManager : MonoBehaviour
     public GameObject[] blocks;
     private GameObject text;
     private GameObject restartButton;
+    private int ballCount; // 現在のボールの数
 
     // Start is called before the first frame update
     void Start()
     {
         // ブロックを全て取得
-        blocks = GameObject.FindGameObjectsWithTag("Block");     
+        blocks = GameObject.FindGameObjectsWithTag("Block");
         // テキストを取得
         text = GameObject.Find("Text");
         // Restartボタンを取得
         restartButton = GameObject.Find("RestartButton");
         // Restartボタンを非表示
         restartButton.SetActive(false);
+        // 初期ボールの数をカウント
+        ballCount = GameObject.FindGameObjectsWithTag("Ball").Length;
     }
 
     // Update is called once per frame
@@ -40,7 +43,6 @@ public class GameManager : MonoBehaviour
             // ゲームを停止
             Time.timeScale = 0;
         }
-        
     }
 
     // ゲームオーバー
@@ -50,10 +52,24 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over!");
         // テキストにゲームオーバーを表示
         text.GetComponent<Text>().text = "Game Over!";
-        // ゲームを停止
-        //Time.timeScale = 0;
         // Restartボタンを表示
         restartButton.SetActive(true);
+    }
+
+    // ボールが破壊されたときに呼び出す
+    public void BallDestroyed()
+    {
+        ballCount--; // ボールの数を減少させる
+        if (ballCount <= 0)
+        {
+            GameOver(); // ボールがすべてなくなったらゲームオーバー
+        }
+    }
+
+    // ボールが生成されたときに呼び出す
+    public void BallCreated()
+    {
+        ballCount++; // ボールの数を増加させる
     }
 
     // ゲーム再開
