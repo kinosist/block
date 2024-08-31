@@ -17,12 +17,14 @@ public class Ball : MonoBehaviour
         rb.velocity = (transform.forward + transform.right) * speed;
         // GameManagerオブジェクトを取得
         gameManager = GameObject.Find("GameManager");
+        // ゲームマネージャーにボールが生成されたことを通知
+        gameManager.GetComponent<GameManager>().BallCreated();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // 衝突判定
@@ -30,10 +32,10 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.tag == "Gameover")
         {
+            // ボールを削除する前にGameManagerに通知
+            gameManager.GetComponent<GameManager>().BallDestroyed();
             // ボールを削除
             Destroy(gameObject);
-            // ゲームオーバー
-            gameManager.GetComponent<GameManager>().GameOver();
         }
     }
 }
